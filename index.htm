@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Explorer - College Assignment</title>
+    <!-- Load Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter font and basic styling -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'space-dark': '#0f172a',
+                        'space-light': '#1e293b',
+                        'star-yellow': '#fde047',
+                        'cosmic-blue': '#93c5fd',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar styling for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-space-dark text-gray-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header and Navigation Bar -->
+    <header class="bg-space-light shadow-lg sticky top-0 z-10">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo/Title -->
+                <a href="#" class="text-xl font-bold text-star-yellow rounded-lg p-2 transition duration-300 hover:bg-space-dark" onclick="renderPage('home'); return false;">
+                    <span class="hidden sm:inline">Space Explorer</span>
+                    <span class="sm:hidden">Cosmos</span>
+                </a>
+
+                <!-- Navigation Links -->
+                <div class="flex space-x-2 sm:space-x-4">
+                    <a id="nav-home" href="#home" onclick="renderPage('home'); return false;"
+                       class="nav-link px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out hover:bg-space-dark hover:text-cosmic-blue">Home</a>
+                    <a id="nav-planets" href="#planets" onclick="renderPage('planets'); return false;"
+                       class="nav-link px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out hover:bg-space-dark hover:text-cosmic-blue">The Planets</a>
+                    <a id="nav-missions" href="#missions" onclick="renderPage('missions'); return false;"
+                       class="nav-link px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out hover:bg-space-dark hover:text-cosmic-blue">Missions</a>
+                    <a id="nav-black_holes" href="#black_holes" onclick="renderPage('black_holes'); return false;"
+                       class="nav-link px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out hover:bg-space-dark hover:text-cosmic-blue">Black Holes</a>
+                    <a id="nav-contact" href="#contact" onclick="renderPage('contact'); return false;"
+                       class="nav-link px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out hover:bg-space-dark hover:text-cosmic-blue">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area (This is where the 5 pages will be displayed) -->
+    <main class="flex-grow max-w-4xl mx-auto p-4 sm:p-8">
+        <div id="content" class="bg-space-light p-6 sm:p-10 rounded-xl shadow-2xl transition duration-500">
+            <!-- Content will be injected here by JavaScript -->
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-star-yellow mb-4">Loading...</h1>
+            <p class="text-lg text-gray-300">Please wait while the cosmos loads.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-space-light mt-8 py-4 text-center text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-4">
+            &copy; 2025 Space Explorer Project. | Created for College Assignment.
+        </div>
+    </footer>
+
+    <script>
+        // Data structure to hold the content for the 5 "pages"
+        const pages = {
+            'home': {
+                title: "Welcome, Space Explorer!",
+                icon: "🚀",
+                content: `
+                    <p class="text-xl mb-6 text-cosmic-blue">
+                        Begin your journey through the cosmos. Our universe is filled with incredible wonders, from the smallest asteroids to the largest galaxies.
+                    </p>
+                    <p class="mb-4">
+                        This site is a simple introduction to a few fascinating topics in space. Use the navigation bar above to explore The Planets, historic Missions, and the mysteries of Black Holes.
+                    </p>
+                    <p>
+                        We encourage you to look up and be inspired by the stars every day!
+                    </p>
+                    <div class="mt-8 p-4 bg-space-dark rounded-lg border border-cosmic-blue/50">
+                        <h3 class="text-lg font-semibold text-star-yellow">Quick Fact:</h3>
+                        <p class="text-sm">The Sun accounts for about 99.8% of the total mass of the Solar System!</p>
+                    </div>
+                `
+            },
+            'planets': {
+                title: "Our Solar System's Neighbors",
+                icon: "🪐",
+                content: `
+                    <p class="text-lg mb-6">
+                        Our neighborhood consists of eight major planets orbiting the Sun. Each one is unique and holds its own mysteries.
+                    </p>
+                    <ul class="space-y-4">
+                        <li>
+                            <span class="font-bold text-star-yellow">Mercury:</span> The smallest planet, zipping quickly around the Sun. It has extreme temperature swings.
+                        </li>
+                        <li>
+                            <span class="font-bold text-star-yellow">Venus:</span> A scorching hot world hidden beneath thick, toxic clouds. It rotates backward compared to most planets.
+                        </li>
+                        <li>
+                            <span class="font-bold text-star-yellow">Earth:</span> Our beautiful blue home, the only place known to harbor life.
+                        </li>
+                        <li>
+                            <span class="font-bold text-star-yellow">Mars:</span> The 'Red Planet', home to the largest volcano in the Solar System, Olympus Mons, and the focus of future human exploration.
+                        </li>
+                        <li>
+                            <span class="font-bold text-star-yellow">Jupiter:</span> The largest gas giant, so big it could fit all other planets inside it. Known for its Great Red Spot, a storm larger than Earth.
+                        </li>
+                    </ul>
+                `
+            },
+            'missions': {
+                title: "Legendary Journeys of Exploration",
+                icon: "🛰️",
+                content: `
+                    <p class="text-lg mb-6">
+                        Humanity has achieved incredible feats in space, sending probes and people further than ever imagined.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-4 border border-star-yellow/30 rounded-lg bg-space-dark">
+                            <h3 class="text-xl font-semibold text-star-yellow mb-2">Apollo Program</h3>
+                            <p class="text-sm">
+                                (1969-1972) This monumental program successfully landed twelve astronauts on the Moon, a defining moment in human history.
+                            </p>
+                        </div>
+                        <div class="p-4 border border-star-yellow/30 rounded-lg bg-space-dark">
+                            <h3 class="text-xl font-semibold text-star-yellow mb-2">Voyager Probes</h3>
+                            <p class="text-sm">
+                                (Launched 1977) Voyager 1 and 2 are currently in interstellar space (beyond our Solar System's influence) and continue to send back data.
+                            </p>
+                        </div>
+                        <div class="p-4 border border-star-yellow/30 rounded-lg bg-space-dark">
+                            <h3 class="text-xl font-semibold text-star-yellow mb-2">Hubble Space Telescope</h3>
+                            <p class="text-sm">
+                                (Launched 1990) This telescope has provided breathtaking images and crucial data, completely reshaping our understanding of the universe.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            'black_holes': {
+                title: "The Universe's Ultimate Mystery",
+                icon: "⚫",
+                content: `
+                    <p class="text-lg mb-6 text-cosmic-blue">
+                        A **black hole** is one of the most mysterious and powerful objects in the cosmos.
+                    </p>
+                    <p class="mb-4">
+                        It is a region in space where the pull of gravity is so intense that nothing, not even light, can escape once it crosses the point of no return, called the **event horizon**.
+                    </p>
+                    <p class="mb-4">
+                        Black holes typically form when massive stars run out of fuel and collapse in on themselves in a supernova explosion. There are also supermassive black holes found at the centers of almost all large galaxies.
+                    </p>
+                    <div class="mt-8 p-4 bg-space-dark rounded-lg border border-star-yellow/50">
+                        <h3 class="text-lg font-semibold text-star-yellow">Did you know?</h3>
+                        <p class="text-sm">The first image of a black hole's shadow was captured in 2019 by the Event Horizon Telescope.</p>
+                    </div>
+                `
+            },
+            'contact': {
+                title: "Connect with the Cosmos",
+                icon: "📧",
+                content: `
+                    <p class="text-lg mb-6">
+                        Have a question about space, or just want to chat about the stars? Reach out to our team of beginner space enthusiasts!
+                    </p>
+                    <div class="space-y-4">
+                        <p class="text-base">
+                            <span class="font-bold text-star-yellow">Primary Email:</span>
+                            <a href="mailto:info@spaceexplorer.edu" class="text-cosmic-blue hover:underline">nasa@spaceexplorer.edu</a>
+                        </p>
+                        <p class="text-base">
+                            <span class="font-bold text-star-yellow">Project Lead:</span>
+                            Janvi 
+                        </p>
+                    
+                    </div>
+                    
+                `
+            }
+        };
+
+        let currentPageId = 'home'; // Default page on load
+
+        /**
+         * Renders the specified page content into the main content area.
+         * @param {string} pageId - The key of the page in the 'pages' object (e.g., 'home', 'planets').
+         */
+        function renderPage(pageId) {
+            const pageData = pages[pageId];
+            const contentDiv = document.getElementById('content');
+
+            if (!pageData) {
+                // Fallback for an invalid page ID
+                contentDiv.innerHTML = `
+                    <h1 class="text-4xl font-extrabold text-red-500 mb-4">Error: Page Not Found</h1>
+                    <p class="text-lg text-gray-400">The cosmic coordinates you entered are incorrect. Please try the navigation links.</p>
+                `;
+                return;
+            }
+
+            // 1. Update the main content area
+            contentDiv.innerHTML = `
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-star-yellow mb-6">
+                    ${pageData.icon} ${pageData.title}
+                </h1>
+                <div class="text-lg text-gray-300 leading-relaxed">
+                    ${pageData.content}
+                </div>
+            `;
+
+            // 2. Update the navigation bar to highlight the active page
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-star-yellow', 'text-space-dark', 'font-bold'); // Remove active style
+                link.classList.add('text-gray-100'); // Add default style
+            });
+
+            const activeLink = document.getElementById(`nav-${pageId}`);
+            if (activeLink) {
+                activeLink.classList.remove('text-gray-100');
+                activeLink.classList.add('bg-star-yellow', 'text-space-dark', 'font-bold'); // Apply active style
+            }
+
+            // 3. Update the URL hash (optional, but good practice for deep linking)
+            window.location.hash = pageId;
+            currentPageId = pageId;
+        }
+
+        /**
+         * Initializes the application.
+         * Checks the URL hash on load to determine which page to display first.
+         */
+        window.onload = function() {
+            // Get page ID from URL hash (e.g., #planets)
+            const hash = window.location.hash.substring(1);
+            const initialPage = pages[hash] ? hash : 'home'; // Default to 'home' if hash is invalid or missing
+
+            renderPage(initialPage);
+        };
+    </script>
+
+</body>
+</html>
